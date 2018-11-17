@@ -1,0 +1,12 @@
+# Project files #
+######################
+.idea
+.DS_Store
+/docker/nginx/logs/*.log
+/docker/nginx/sites/*
+!/docker/nginx/sites/local.conf
+/docker/apache/logs/*.log
+/data/mongodb/*
+!/data/mongodb/.gitkeep
+/www/*
+!/www/index.php
