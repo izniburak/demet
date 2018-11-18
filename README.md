@@ -35,4 +35,4 @@ You can change environments ports or configurations like you want. Also, if you 
 ## Contributors
 
 - [izniburak](https://github.com/izniburak) İzni Burak Demirtaş - creator, maintainer
-
+- Mustafa Palavar - Contributor
