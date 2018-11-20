@@ -26,6 +26,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
         libxml2-dev \
         apache2-utils \
         openssl \
+        autoconf \ 
+        pkg-config \
+        libssl-dev \
     && docker-php-ext-install mbstring iconv pdo pdo_mysql opcache zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
@@ -38,14 +41,8 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && docker-php-ext-install intl \
     && docker-php-ext-install bcmath
 
-RUN apt-get update \
-    && apt-get install -y autoconf pkg-config libssl-dev \
-    && pecl install mongodb \
-    && echo "extension=mongodb.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
-
-RUN apt-get update \
-    && pecl install redis \
-    && echo "extension=redis.so" >> `php --ini | grep "Loaded Configuration" | sed -e "s|.*:\s*||"`
+RUN pecl install mongodb \ 
+    && pecl install redis 
 
 USER root
 
