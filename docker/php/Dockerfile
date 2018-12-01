@@ -44,6 +44,9 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 RUN pecl install mongodb \ 
     && pecl install redis 
 
+RUN curl -sS https://getcomposer.org/installer | php -- \
+    --install-dir=/usr/bin --filename=composer && chmod +x /usr/bin/composer 
+
 USER root
 
 RUN usermod -u 1000 www-data

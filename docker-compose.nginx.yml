@@ -22,7 +22,7 @@ services:
       - 443:443
     volumes:
       - ./www:/var/www/html
-      - ./docker/nginx/logs:/var/log/nginx
+      - ./logs/nginx:/var/log/nginx
       - ./docker/nginx/sites:/etc/nginx/sites-available
     depends_on:
       - php7
@@ -78,6 +78,7 @@ services:
     ports:
       - 6379:6379
     volumes:
+      - ./logs/redis:/var/log/redis
       - redis:/data
 
   phpmyadmin:

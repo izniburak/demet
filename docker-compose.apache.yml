@@ -22,7 +22,7 @@ services:
       - 443:443
     volumes:
       - ./www:/var/www/html
-      - ./docker/apache/logs:/var/log/apache2
+      - ./logs/apache:/var/log/apache2
     depends_on:
       - php7
 
@@ -77,6 +77,7 @@ services:
     ports:
       - 6379:6379
     volumes:
+      - ./logs/redis:/var/log/redis
       - redis:/data
 
   phpmyadmin:
