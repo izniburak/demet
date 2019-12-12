@@ -29,13 +29,10 @@ Simple and useful **LAMP & LEMP** stacks to use on Docker via Docker Compose. Wi
 Default docker-compose file includes **PHP, Apache, and MySQL** containers.
 
 ## usage
-Clone this repo and run following command in repo you cloned:
-
+Clone this repo by using following command:
 ```
-$ make
+$ git clone https://github.com/izniburak/demet.git && cd demet
 ```
-Then, configure and generate your docker-compose.yml file as you want.
-
 Now, you must create **.env file** to specify port configuration for the containers you selected. In order to generate **.env file**, you can run following command simply:
 ```
 $ make env
@@ -44,8 +41,15 @@ Great! **.env** file has been generated.
 If you want to change default ports or configuration,
 you can edit **.env** file.
 
+Then, configure and generate your docker-compose.yml file as you want.
+
+**NOTE:** If you want to use default stack (PHP & Apache & MySQL) skip this step.
+```
+$ make
+```
+
 Now, You're ready to build the containers you selected.
-In order to build containers you selected, you can use following command:
+In order to build the containers, you can use following command:
 ```
 $ make build
 ```
