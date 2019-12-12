@@ -1,0 +1,200 @@
+version: "3"
+
+networks:
+  demet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.17.0.0/24
+
+services:
+  #--WEBSERVER--#
+  webserver:
+    build:
+      context: ${DEMET_PATH}/docker/${WEBSERVER}
+    image: demet-webserver
+    container_name: demet-webserver
+    networks:
+      - demet
+    ports:
+      - ${HOST_PORT_WEBSERVER}:80
+      - ${HOST_PORT_WEBSERVER_SSL}:443
+    volumes:
+      - ${DEMET_PATH}/public:/var/www/html
+    depends_on:
+      - php7
+  #--/WEBSERVER--#
+  #--PHP--#
+  php7:
+    build:
+      context: ${DEMET_PATH}/docker/php
+    image: demet-php7
+    container_name: demet-php7
+    networks:
+      - demet
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ${DEMET_PATH}/public:/var/www/html
+    depends_on:
+      #--MYSQL--#
+      - mysql
+      #--/MYSQL--#
+      #--PGSQL--#
+      - pgsql
+      #--/PGSQL--#
+  #--/PHP--#    
+  #--MYSQL--#
+  mysql:
+    image: mysql:8.0
+    container_name: demet-mysql
+    networks:
+      - demet
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASS}
+      MYSQL_DATABASE: ${MYSQL_DEFAULT_DB}
+      MYSQL_USER: ${MYSQL_DEFAULT_USER}
+      MYSQL_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
+    ports:
+      - ${HOST_PORT_MYSQL}:3306
+    volumes:
+      - ${DEMET_PATH}/docker/mysql/custom.cnf:/etc/mysql/conf.d/local.cnf
+      - ${DEMET_PATH}/logs/mysql:/var/log/mysql:rw${MOUNT_OPTIONS}
+      - mysql-data:/var/lib/mysql
+  #--/MYSQL--#
+  #--PHPMYADMIN--#
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: demet-phpmyadmin
+    networks:
+      - demet
+    depends_on:
+      - php7
+      - mysql
+    ports:
+        - ${HOST_PORT_PHPMYADMIN}:${HOST_PORT_WEBSERVER}
+    environment:
+      MYSQL_USERNAME: ${MYSQL_DEFAULT_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
+      PMA_HOST: mysql
+      PMA_PORT: ${HOST_PORT_MYSQL}
+  #--/PHPMYADMIN--#
+  #--PGSQL--#
+  pgsql:
+    image: postgres:12.0
+    container_name: demet-pgsql
+    networks:
+      - demet
+    environment:
+      - POSTGRES_USER=${PGSQL_DEFAULT_USER}
+      - POSTGRES_PASSWORD=${PGSQL_DEFAULT_PASS}
+      - POSTGRES_DATABASE=${PGSQL_DEFAULT_DB}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - ${HOST_PORT_PGSQL}:5432
+    volumes:
+      - ${DEMET_PATH}/logs/pgsql:/var/log/postgresql:rw${MOUNT_OPTIONS}
+      - pgsql-data:/var/lib/postgresql/data
+  #--/PGSQL--#
+  #--PGADMIN--#
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: demet-pgadmin
+    networks:
+      - demet
+    depends_on:
+      - php7
+      - pgsql
+    ports:
+      - ${HOST_PORT_PGADMIN}:${HOST_PORT_NGINX}
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+  #--/PGADMIN--#
+  #--MONGODB--#
+  mongodb:
+    image: mongo:latest
+    container_name: demet-mongodb
+    networks:
+      - demet
+    ports:
+        - ${HOST_PORT_MONGO}:27017
+    command: mongod --smallfiles --logpath=/dev/null
+    restart: on-failure
+    environment:
+      MONGO_DATA_DIR: /data/db
+      MONGO_LOG_DIR: /dev/null
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ADMIN_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ADMIN_PASSWORD}
+    volumes:
+      - mongodb-data:/data/db
+  #--/MONGODB--#
+  #--MONGOEXPRESS--#
+  mongoadmin:
+    image: mongo-express:latest
+    container_name: demet-mongoadmin
+    networks:
+      - demet
+    depends_on:
+      - mongodb
+    ports:
+      - ${HOST_PORT_MONGOADMIN}:${HOST_PORT_MONGOADMIN}
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGOADMIN_BASIC_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGOADMIN_BASIC_PASSWORD}
+      ME_CONFIG_MONGODB_PORT: ${HOST_PORT_MONGO}
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_ADMIN_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_ADMIN_PASSWORD}
+  #--/MONGOEXPRESS--#
+  #--REDIS--#
+  redis:
+    image: redis:5.0
+    container_name: demet-redis
+    networks:
+      - demet
+    ports:
+      - ${HOST_PORT_REDIS}:6379
+    restart: on-failure
+    command: redis-server --appendonly yes
+    volumes:
+      - ${DEMET_PATH}/logs/redis:/var/log/redis
+      - redis-data:/data
+  #--/REDIS--#
+  #--RABBITMQ--#
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: demet-rabbitmq
+    restart: on-failure
+    ports:
+      - ${HOST_PORT_RABBITMQ_ADMIN}:15672
+      - ${HOST_PORT_RABBITMQ}:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASSWORD}
+    volumes:
+      - ${DEMET_PATH}/docker/rabbitmq/isolated.conf:/etc/rabbitmq/rabbitmq.config
+      - ${DEMET_PATH}/logs/rabbitmq/logs/:/var/log/rabbitmq/
+      - rabbitmq-data:/var/lib/rabbitmq/mnesia
+  #--/RABBITMQ--#
+volumes:
+    #--MYSQL--#
+    mysql-data:
+      driver: "local"
+    #--/MYSQL--#
+    #--PGSQL--#
+    pgsql-data:
+      driver: "local"
+    #--/PGSQL--#
+    #--REDIS--#
+    redis-data:
+      driver: "local"
+    #--/REDIS--#
+    #--MONGODB--#
+    mongodb-data:
+      driver: "local"
+    #--/MONGODB--#
+    #--RABBITMQ--#
+    rabbitmq-data:
+      driver: "local"
+    #--/RABBITMQ--#

@@ -1,9 +1,9 @@
-FROM php:7.4-fpm-alpine
+FROM php:7.4-zts-alpine
 MAINTAINER İzni Burak Demirtaş <izniburak@gmail.com>
 
 ENV PATH="./vendor/bin:${PATH}"
 
-COPY conf/ /usr/local/etc/php/conf.d/
+COPY php-zts.ini /usr/local/etc/php/conf.d/
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
@@ -32,6 +32,19 @@ RUN pecl install mongodb redis xdebug \
 
 RUN echo "### Installing MongoDB, Redis and XDebug Extensions are completed. ###"
 
+# Add PHP Pthreads module
+RUN git clone https://github.com/krakjoe/pthreads.git \
+        && ( \
+            cd pthreads \
+            && phpize \
+            && ./configure --enable-pthreads \
+            && make -j$(nproc) \
+            && make install \
+        ) \
+        && rm -r pthreads \
+        && docker-php-ext-enable pthreads
+RUN echo "### Installing pThread Extension is completed. ###" 
+
 # Add Composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/bin --filename=composer && chmod +x /usr/bin/composer 
@@ -41,8 +54,8 @@ USER root
 
 RUN usermod -u 1000 www-data
 
-EXPOSE 9000
+WORKDIR /var/www/scripts
 
-WORKDIR /var/www/html
+EXPOSE 9001
 
-CMD ["php-fpm"]
+ENTRYPOINT ["/bin/sh"]

@@ -5,7 +5,6 @@
 !.gitkeep
 /docker/nginx/sites/*
 !/docker/nginx/sites/local.conf
-/data/mongodb/*
-/www/*
-!/www/index.php
+/public/*
+!/public/index.php
 /logs/**/*.log

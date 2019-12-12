@@ -1,0 +1,67 @@
+version: "3"
+
+networks:
+  demet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.17.0.0/24
+
+services:
+  #--WEBSERVER--#
+  webserver:
+    build:
+      context: ${DEMET_PATH}/docker/apache
+    image: demet-webserver
+    container_name: demet-webserver
+    networks:
+      - demet
+    ports:
+      - ${HOST_PORT_WEBSERVER}:80
+      - ${HOST_PORT_WEBSERVER_SSL}:443
+    volumes:
+      - ${DEMET_PATH}/public:/var/www/html
+    depends_on:
+      - php7
+  #--/WEBSERVER--#
+  #--PHP--#
+  php7:
+    build:
+      context: ${DEMET_PATH}/docker/php
+    image: demet-php7
+    container_name: demet-php7
+    networks:
+      - demet
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ${DEMET_PATH}/public:/var/www/html
+    depends_on:
+      #--MYSQL--#
+      - mysql
+      #--/MYSQL--#
+  #--/PHP--#    
+  #--MYSQL--#
+  mysql:
+    image: mysql:8.0
+    container_name: demet-mysql
+    networks:
+      - demet
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASS}
+      MYSQL_DATABASE: ${MYSQL_DEFAULT_DB}
+      MYSQL_USER: ${MYSQL_DEFAULT_USER}
+      MYSQL_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
+    ports:
+      - ${HOST_PORT_MYSQL}:3306
+    volumes:
+      - ${DEMET_PATH}/docker/mysql/custom.cnf:/etc/mysql/conf.d/local.cnf
+      - ${DEMET_PATH}/logs/mysql:/var/log/mysql:rw${MOUNT_OPTIONS}
+      - mysql-data:/var/lib/mysql
+  #--/MYSQL--#
+volumes:
+    #--MYSQL--#
+    mysql-data:
+      driver: "local"
+    #--/MYSQL--#
