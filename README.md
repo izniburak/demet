@@ -1,12 +1,22 @@
 # demet
 
-Simple and useful **LAMP & LEMP** stacks to use on Docker container via Docker Compose. With **PostgreSQL, MongoDB, Redis, RabbitMQ, PhpMyAdmin, PGAdmin and Mongo-Express.** You can generate your environment whatever you want. 
+```
+        _____  ______ __  __ ______ _______ 
+      |  __ \|  ____|  \/  |  ____|__   __|
+      | |  | | |__  | \  / | |__     | |   
+      | |  | |  __| | |\/| |  __|    | |   
+      | |__| | |____| |  | | |____   | |   
+      |_____/|______|_|  |_|______|  |_|   
+  Useful LAMP & LEMP stacks to use on Docker.
+```
+
+Simple and useful **LAMP & LEMP** stacks to use on Docker via Docker Compose. With **PostgreSQL, MongoDB, Redis, RabbitMQ, PhpMyAdmin, PGAdmin and Mongo-Express.** You can generate your environment whatever you want. 
 
 | Service       | Container Name   | Default Ports | Version       | Description                      |
 |---------------|------------------|---------------|---------------|----------------------------------|
 | Apache Server | demet-apache     | 80 / 443      | 2.4:alpine    | Apache Web Server                |
 | Nginx Server  | demet-nginx      | 80 / 443      | latest:alpine | Nginx Web Server                 |
-| PHP           | demet-php7       | 9000          | 7.4-fpm       | PHP 7.4-fpm-alpine container     |
+| PHP           | demet-php7       | 9000          | 7.4-fpm       | PHP 7.4-fpm container            |
 | MySQL         | demet-mysql      | 3306          | 8.0           | MySQL Database version 8.0       |
 | PhpMyAdmin    | demet-phpmyadmin | 8080          | latest        | MySQL Web UI                     |
 | PostgreSQL    | demet-pgsql      | 5432          | 12.0          | PostgreSQL Database version 12.0 |
