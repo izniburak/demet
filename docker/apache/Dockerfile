@@ -10,8 +10,6 @@ COPY httpd.conf /usr/local/apache2/conf/demet.httpd.conf
 RUN echo "Include /usr/local/apache2/conf/demet.httpd.conf" \
     >> /usr/local/apache2/conf/httpd.conf
 
-VOLUME ./logs/webserver /var/log/apache
-
 EXPOSE 80 443
 
 WORKDIR /usr/local/apache2

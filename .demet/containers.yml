@@ -22,6 +22,7 @@ services:
       - ${HOST_PORT_WEBSERVER_SSL}:443
     volumes:
       - ${DEMET_PATH}/public:/var/www/html
+      - ${DEMET_PATH}/logs/webserver:/var/log/${WEBSERVER}:rw${MOUNT_OPTIONS}
     depends_on:
       - php7
   #--/WEBSERVER--#
@@ -159,7 +160,7 @@ services:
     restart: on-failure
     command: redis-server --appendonly yes
     volumes:
-      - ${DEMET_PATH}/logs/redis:/var/log/redis
+      - ${DEMET_PATH}/logs/redis:/var/log/redis:rw${MOUNT_OPTIONS}
       - redis-data:/data
   #--/REDIS--#
   #--RABBITMQ--#
@@ -174,7 +175,7 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASSWORD}
     volumes:
-      - ${DEMET_PATH}/logs/rabbitmq/logs/:/var/log/rabbitmq/
+      - ${DEMET_PATH}/logs/rabbitmq/logs/:/var/log/rabbitmq:rw${MOUNT_OPTIONS}
       - rabbitmq-data:/var/lib/rabbitmq/mnesia
   #--/RABBITMQ--#
 volumes:
