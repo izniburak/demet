@@ -6,7 +6,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 172.17.0.0/24
+        - subnet: 172.17.0.0/16
 
 services:
   #--WEBSERVER--#
@@ -52,7 +52,7 @@ services:
     networks:
       - demet
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASS}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DEFAULT_DB}
       MYSQL_USER: ${MYSQL_DEFAULT_USER}
       MYSQL_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
@@ -119,7 +119,7 @@ services:
     networks:
       - demet
     ports:
-        - ${HOST_PORT_MONGO}:27017
+        - ${HOST_PORT_MONGODB}:27017
     command: mongod --smallfiles --logpath=/dev/null
     restart: on-failure
     environment:
@@ -139,11 +139,12 @@ services:
     depends_on:
       - mongodb
     ports:
-      - ${HOST_PORT_MONGOADMIN}:${HOST_PORT_MONGOADMIN}
+      - ${HOST_PORT_MONGOADMIN}:8081
     environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
       ME_CONFIG_BASICAUTH_USERNAME: ${MONGOADMIN_BASIC_USER}
       ME_CONFIG_BASICAUTH_PASSWORD: ${MONGOADMIN_BASIC_PASSWORD}
-      ME_CONFIG_MONGODB_PORT: ${HOST_PORT_MONGO}
+      ME_CONFIG_MONGODB_PORT: ${HOST_PORT_MONGODB}
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_ADMIN_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_ADMIN_PASSWORD}
   #--/MONGOEXPRESS--#
@@ -173,7 +174,6 @@ services:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASSWORD}
     volumes:
-      - ${DEMET_PATH}/docker/rabbitmq/isolated.conf:/etc/rabbitmq/rabbitmq.config
       - ${DEMET_PATH}/logs/rabbitmq/logs/:/var/log/rabbitmq/
       - rabbitmq-data:/var/lib/rabbitmq/mnesia
   #--/RABBITMQ--#
