@@ -56,20 +56,20 @@ That's all! Happy coding!
 - **Composer, XDebug and OPCache** are included for PHP. You can use these directly.
 - If you want to enter to spesific container, you can use this command: 
 ```
-docker exec -it "container-name" /bin/bash
+$ docker exec -it "container-name" /bin/bash
 ```
 - You can use following commands simply in order to `up` or `down` docker-compose instead of `docker-compose up|down`:
 ```
 # for UP your containers
-make up
+$ make up
 
 # for DOWN your containers
-make down
+$ make down
 ```
 - You can access to container logs from `./logs/` directory.
 - You can use following command to clean & delete your **docker-compose** and **.env** files
 ```
-make clean
+$ make clean
 ```
 
 ## Contributing
