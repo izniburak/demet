@@ -107,7 +107,7 @@ services:
       - php7
       - pgsql
     ports:
-      - ${HOST_PORT_PGADMIN}:${HOST_PORT_NGINX}
+      - ${HOST_PORT_PGADMIN}:${HOST_PORT_WEBSERVER}
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
