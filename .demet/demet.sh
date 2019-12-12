@@ -36,6 +36,7 @@ if [ $answer = 'y' ]; then
 else
   echo "Okay, MySQL won't be added.\n"
   patterns="$patterns/#--MYSQL--#/,/#--\/MYSQL--#/d;"
+  patterns="$patterns/#--PHPMYADMIN--#/,/#--\/PHPMYADMIN--#/d;"
 fi
 
 read -p "Do you want to use PostgreSQL? [y|n] : " answer
@@ -51,6 +52,7 @@ if [ $answer = 'y' ]; then
 else 
   echo "Okay, PostgreSQL won't be added.\n"
   patterns="$patterns/#--PGSQL--#/,/#--\/PGSQL--#/d;"
+  patterns="$patterns/#--PGADMIN--#/,/#--\/PGADMIN--#/d;"
 fi
 
 read -p "Do you want to use MongoDB? [y|n] : " answer
@@ -66,6 +68,7 @@ if [ $answer = 'y' ]; then
 else 
   echo "Okay, MongoDB won't be added.\n"
   patterns="$patterns/#--MONGODB--#/,/#--\/MONGODB--#/d;"
+  patterns="$patterns/#--MONGOEXPRESS--#/,/#--\/MONGOEXPRESS--#/d;"
 fi
 
 read -p "Do you want to use Redis? [y|n] : " answer
