@@ -7,7 +7,7 @@ patterns=""
 echo "DEMET - Docker-Compose File Generating Tool\n"
 
 if [ -f "$compose" ]; then
-    echo "You have already been generated docker-compose file."
+    echo "Docker-compose file has already been generated."
     read -p "Do you want to regenerate it? [y|n] : " answer
     if [ $answer = 'n' ]; then
       exit
