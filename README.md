@@ -7,10 +7,10 @@
       | |  | |  __| | |\/| |  __|    | |   
       | |__| | |____| |  | | |____   | |   
       |_____/|______|_|  |_|______|  |_|   
-  Useful LAMP & LEMP stacks to use on Docker.
+  Lightweight LAMP & LEMP stacks to use on Docker.
 ```
 
-Simple and useful **LAMP & LEMP** stacks to use on Docker via Docker Compose. With **PostgreSQL, MongoDB, Redis, RabbitMQ, PhpMyAdmin, PGAdmin and Mongo-Express.** You can generate your environment in whatever way you desire.
+Simple, lightweight and useful **LAMP & LEMP** stacks to use on Docker via Docker Compose. With **PostgreSQL, MongoDB, Redis, RabbitMQ, PhpMyAdmin, PGAdmin and Mongo-Express.** You can generate your environment in whatever way you desire.
 
 | Service       | Container Name   | Default Ports | Version       | Description                      |
 |---------------|------------------|---------------|---------------|----------------------------------|

@@ -1,5 +1,5 @@
 FROM php:7.4-fpm
-MAINTAINER İzni Burak Demirtaş <izniburak@gmail.com>
+LABEL maintainer="İzni Burak Demirtaş <izniburak@gmail.com>"
 
 ENV PATH="./vendor/bin:${PATH}"
 

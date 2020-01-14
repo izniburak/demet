@@ -1,5 +1,5 @@
 FROM nginx:alpine
-MAINTAINER İzni Burak Demirtaş <izniburak@gmail.com>
+LABEL maintainer="İzni Burak Demirtaş <izniburak@gmail.com>"
 
 ADD nginx.conf /etc/nginx/
 COPY sites/ /etc/nginx/sites-available/

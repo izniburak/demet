@@ -1,5 +1,5 @@
 FROM httpd:2.4-alpine
-MAINTAINER İzni Burak Demirtaş <izniburak@gmail.com>
+LABEL maintainer="İzni Burak Demirtaş <izniburak@gmail.com>"
 
 RUN apk update \
     && apk upgrade \
