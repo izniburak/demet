@@ -3,10 +3,6 @@ version: "3"
 networks:
   demet:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.17.0.0/24
 
 services:
   #--WEBSERVER--#
@@ -22,6 +18,7 @@ services:
       - ${HOST_PORT_WEBSERVER_SSL}:443
     volumes:
       - ${DEMET_PATH}/public:/var/www/html
+      - ${DEMET_PATH}/logs/webserver:/var/log/apache:rw${MOUNT_OPTIONS}
     depends_on:
       - php7
   #--/WEBSERVER--#
@@ -44,12 +41,12 @@ services:
   #--/PHP--#    
   #--MYSQL--#
   mysql:
-    image: mysql:8.0
+    image: mysql:${MYSQL_VERSION}
     container_name: demet-mysql
     networks:
       - demet
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASS}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DEFAULT_DB}
       MYSQL_USER: ${MYSQL_DEFAULT_USER}
       MYSQL_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
@@ -61,7 +58,7 @@ services:
       - mysql-data:/var/lib/mysql
   #--/MYSQL--#
 volumes:
-    #--MYSQL--#
-    mysql-data:
-      driver: "local"
-    #--/MYSQL--#
+  #--MYSQL--#
+  mysql-data:
+    driver: "local"
+  #--/MYSQL--#

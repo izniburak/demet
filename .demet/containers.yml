@@ -3,10 +3,6 @@ version: "3"
 networks:
   demet:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.21.0.0/16
 
 services:
   #--WEBSERVER--#
@@ -48,7 +44,7 @@ services:
   #--/PHP--#    
   #--MYSQL--#
   mysql:
-    image: mysql:8.0
+    image: mysql:${MYSQL_VERSION}
     container_name: demet-mysql
     networks:
       - demet
@@ -83,13 +79,13 @@ services:
   #--/PHPMYADMIN--#
   #--PGSQL--#
   pgsql:
-    image: postgres:12.0
+    image: postgres:${PGSQL_VERSION}
     container_name: demet-pgsql
     networks:
       - demet
     environment:
       - POSTGRES_USER=${PGSQL_DEFAULT_USER}
-      - POSTGRES_PASSWORD=${PGSQL_DEFAULT_PASS}
+      - POSTGRES_PASSWORD=${PGSQL_DEFAULT_PASSWORD}
       - POSTGRES_DATABASE=${PGSQL_DEFAULT_DB}
       - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
@@ -115,7 +111,7 @@ services:
   #--/PGADMIN--#
   #--MONGODB--#
   mongodb:
-    image: mongo:latest
+    image: mongo:${MONGO_VERSION}
     container_name: demet-mongodb
     networks:
       - demet
@@ -151,7 +147,7 @@ services:
   #--/MONGOEXPRESS--#
   #--REDIS--#
   redis:
-    image: redis:5.0
+    image: redis:${REDIS_VERSION}
     container_name: demet-redis
     networks:
       - demet
@@ -165,7 +161,7 @@ services:
   #--/REDIS--#
   #--RABBITMQ--#
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:${RABBITMQ_VERSION}
     container_name: demet-rabbitmq
     restart: on-failure
     ports:
@@ -179,23 +175,23 @@ services:
       - rabbitmq-data:/var/lib/rabbitmq/mnesia
   #--/RABBITMQ--#
 volumes:
-    #--MYSQL--#
-    mysql-data:
-      driver: "local"
-    #--/MYSQL--#
-    #--PGSQL--#
-    pgsql-data:
-      driver: "local"
-    #--/PGSQL--#
-    #--REDIS--#
-    redis-data:
-      driver: "local"
-    #--/REDIS--#
-    #--MONGODB--#
-    mongodb-data:
-      driver: "local"
-    #--/MONGODB--#
-    #--RABBITMQ--#
-    rabbitmq-data:
-      driver: "local"
-    #--/RABBITMQ--#
+  #--MYSQL--#
+  mysql-data:
+    driver: "local"
+  #--/MYSQL--#
+  #--PGSQL--#
+  pgsql-data:
+    driver: "local"
+  #--/PGSQL--#
+  #--REDIS--#
+  redis-data:
+    driver: "local"
+  #--/REDIS--#
+  #--MONGODB--#
+  mongodb-data:
+    driver: "local"
+  #--/MONGODB--#
+  #--RABBITMQ--#
+  rabbitmq-data:
+    driver: "local"
+  #--/RABBITMQ--#
