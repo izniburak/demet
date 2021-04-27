@@ -9,7 +9,7 @@ RUN apk update \
     && apk add --no-cache bash \
     && adduser -D -H -u 1000 -s /bin/bash www-data
 
-ARG PHP_UPSTREAM_CONTAINER=demet-php7
+ARG PHP_UPSTREAM_CONTAINER=demet-php
 ARG PHP_UPSTREAM_PORT=9000
 
 # Set upstream conf and remove the default conf

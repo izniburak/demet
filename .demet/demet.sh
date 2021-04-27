@@ -9,13 +9,14 @@ echo "DEMET - Docker-Compose File Generating Tool\n"
 if [ -f "$compose" ]; then
     echo "Docker-compose file has already been generated."
     read -p "Do you want to regenerate it? [y|n] : " answer
-    if [ $answer = 'n' ]; then
+    if [ "$answer" != 'y' ]; then
       exit
     fi
+    echo "\n"
 fi
 
-read -p "Which webserver do you want to use? [apache|nginx] : " answer
-if [ $answer = 'nginx' ]; then
+read -p "Which webserver do you want to use? [apache|Nginx] (Default: apache) : " answer
+if [ "$answer" == 'nginx' ]; then
   echo "Okay, Nginx will be used.\n"
   patterns="s/\${WEBSERVER}/nginx/g;"
 else
@@ -23,11 +24,20 @@ else
   patterns="s/\${WEBSERVER}/apache/g;"
 fi
 
+read -p "Which version of PHP do you want to use? (Default: 8) [7|8] : " answer
+if [ "$answer" == '7' ]; then
+  echo "Okay, PHP 7 will be used.\n"
+  patterns="$patterns/#--PHP8--#/,/#--\/PHP8--#/d;"
+else
+  echo "Okay, PHP 8 will be used.\n"
+  patterns="$patterns/#--PHP7--#/,/#--\/PHP7--#/d;"
+fi
+
 read -p "Do you want to use MySQL? [y|n] : " answer
-if [ $answer = 'y' ]; then
+if [ "$answer" == 'y' ]; then
   echo "Okay, MySQL will be added.\n"
   read -p "Do you want to use PhpMyAdmin? [y|n] : " answer
-  if [ $answer = 'y' ]; then
+  if [ "$answer" == 'y' ]; then
     echo "Okay, PhpMyAdmin will be added.\n"
   else
     echo "Okay, PhpMyAdmin won't be added.\n"
@@ -40,10 +50,10 @@ else
 fi
 
 read -p "Do you want to use PostgreSQL? [y|n] : " answer
-if [ $answer = 'y' ]; then
+if [ "$answer" == 'y' ]; then
   echo "Okay, PostgreSQL will be added.\n"
   read -p "Do you want to use PGAdmin for PostgreSQL? [y|n] : " answer
-  if [ $answer = 'y' ]; then
+  if [ "$answer" == 'y' ]; then
     echo "Okay, PGAdmin will be added.\n"
   else 
     echo "Okay, PGAdmin won't be added.\n"
@@ -56,10 +66,10 @@ else
 fi
 
 read -p "Do you want to use MongoDB? [y|n] : " answer
-if [ $answer = 'y' ]; then
+if [ "$answer" == 'y' ]; then
   echo "Okay, MongoDB will be added.\n"
   read -p "Do you want to use Mongo-Express for MongoDB? [y|n] : " answer
-  if [ $answer = 'y' ]; then
+  if [ "$answer" == 'y' ]; then
     echo "Okay, Mongo-Express will be added.\n"
   else 
     echo "Okay, Mongo-Express won't be added.\n"
@@ -72,7 +82,7 @@ else
 fi
 
 read -p "Do you want to use Redis? [y|n] : " answer
-if [ $answer = 'y' ]; then
+if [ "$answer" == 'y' ]; then
   echo "Okay, Redis will be added.\n"
 else 
   echo "Okay, Redis won't be added.\n"
@@ -80,7 +90,7 @@ else
 fi
 
 read -p "Do you want to use RabbitMQ? [y|n] : " answer
-if [ $answer = 'y' ]; then
+if [ "$answer" == 'y' ]; then
   echo "Okay, RabbitMQ will be added.\n"
 else 
   echo "Okay, RabbitMQ won't be added.\n"

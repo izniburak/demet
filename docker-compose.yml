@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 networks:
   demet:
@@ -20,14 +20,16 @@ services:
       - ${DEMET_PATH}/public:/var/www/html
       - ${DEMET_PATH}/logs/webserver:/var/log/apache:rw${MOUNT_OPTIONS}
     depends_on:
-      - php7
+      #--PHP8--#
+      - php8
+      #--/PHP8--#
   #--/WEBSERVER--#
-  #--PHP--#
-  php7:
+  #--PHP8--#
+  php8:
     build:
-      context: ${DEMET_PATH}/docker/php
-    image: demet-php7
-    container_name: demet-php7
+      context: ${DEMET_PATH}/docker/php8
+    image: demet-php
+    container_name: demet-php
     networks:
       - demet
     environment:
@@ -38,7 +40,7 @@ services:
       #--MYSQL--#
       - mysql
       #--/MYSQL--#
-  #--/PHP--#    
+  #--/PHP8--# 
   #--MYSQL--#
   mysql:
     image: mysql:${MYSQL_VERSION}
@@ -57,6 +59,25 @@ services:
       - ${DEMET_PATH}/logs/mysql:/var/log/mysql:rw${MOUNT_OPTIONS}
       - mysql-data:/var/lib/mysql
   #--/MYSQL--#
+  #--PHPMYADMIN--#
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: demet-phpmyadmin
+    networks:
+      - demet
+    depends_on:
+      #--PHP8--#
+      - php8
+      #--/PHP8--#
+      - mysql
+    ports:
+        - ${HOST_PORT_PHPMYADMIN}:${HOST_PORT_WEBSERVER}
+    environment:
+      MYSQL_USERNAME: ${MYSQL_DEFAULT_USER}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
+      PMA_HOST: mysql
+      PMA_PORT: ${HOST_PORT_MYSQL}
+  #--/PHPMYADMIN--#
 volumes:
   #--MYSQL--#
   mysql-data:
