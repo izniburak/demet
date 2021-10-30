@@ -1,4 +1,4 @@
-FROM php:8.1.0RC5-fpm-alpine
+FROM php:8.1.0RC5-fpm
 LABEL maintainer="İzni Burak Demirtaş <izniburak@gmail.com>"
 
 ENV PATH="./vendor/bin:${PATH}"
