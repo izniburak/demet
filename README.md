@@ -15,16 +15,17 @@ Simple, lightweight and useful **LAMP & LEMP** stacks to use on Docker via Docke
 | Service       | Container Name   | Default Ports | Version       | Description                      |
 |---------------|------------------|---------------|---------------|----------------------------------|
 | Apache Server | demet-apache     | 80 / 443      | 2.4:alpine    | Apache Web Server                |
-| Nginx Server  | demet-nginx      | 80 / 443      | latest:alpine | Nginx Web Server                 |
-| PHP           | demet-php        | 9000          | 7.4 - 8.0 | PHP 7.4-fpm or PHP 8.0-fpm       |
+| Nginx Server  | demet-nginx      | 80 / 443      | stable:alpine | Nginx Web Server                 |
+| PHP           | demet-php        | 9000          | 7.4 - 8.0 - 8.1RC | PHP-FPM Versions       |
 | MySQL         | demet-mysql      | 3306          | 8.0           | MySQL 8.0       |
-| PhpMyAdmin    | demet-phpmyadmin | 8080          | latest        | MySQL Web UI                     |
+| MariaDb         | demet-mysql      | 3306          | 10.6           | MariaDb 10.6       |
+| PhpMyAdmin    | demet-phpmyadmin | 8080          | fpm-alphine        | MySQL Web UI                     |
 | PostgreSQL    | demet-pgsql      | 5432          | 12.0          | PostgreSQL 12.0. |
-| PGAdmin       | demet-pgadmin    | 8081          | latest        | PostgreSQL Web UI ()               |
-| MongoDB       | demet-mongodb    | 27017         | latest        | NoSQL database                   |
+| PGAdmin       | demet-pgadmin    | 8081          | 6        | PostgreSQL Web UI (dpage/pgadmin4)               |
+| MongoDB       | demet-mongodb    | 27017         | 5        | NoSQL database                   |
 | Mongo-Express | demet-mongoadmin | 8082          | latest        | MongoDB Web UI                   |
-| Redis         | demet-redis      | 6379          | 5.0           | Redis Database                   |
-| RabbitMQ      | demet-rabbitmq   | 5672 / 15672  | 3-management  | RabbitMQ Message Queue           |
+| Redis         | demet-redis      | 6379          | 6.2           | Redis Database                   |
+| RabbitMQ      | demet-rabbitmq   | 5672 / 15672  | 3-management-alpine  | RabbitMQ Message Queue           |
 
 You can change the image versions of the containers via `.env` file.
 

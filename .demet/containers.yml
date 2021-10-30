@@ -20,17 +20,20 @@ services:
       - ${DEMET_PATH}/public:/var/www/html
       - ${DEMET_PATH}/logs/webserver:/var/log/${WEBSERVER}:rw${MOUNT_OPTIONS}
     depends_on:
-      #--PHP7--#
-      - php7
-      #--/PHP7--#
-      #--PHP8--#
-      - php8
-      #--/PHP8--#
+      #--PHP74--#
+      - php74
+      #--/PHP74--#
+      #--PHP80--#
+      - php80
+      #--/PHP80--#
+      #--PHP81--#
+      - php81
+      #--/PHP81--#
   #--/WEBSERVER--#
-  #--PHP7--#
-  php7:
+  #--PHP74--#
+  php74:
     build:
-      context: ${DEMET_PATH}/docker/php7
+      context: ${DEMET_PATH}/docker/php74
     image: demet-php
     container_name: demet-php
     networks:
@@ -46,11 +49,11 @@ services:
       #--PGSQL--#
       - pgsql
       #--/PGSQL--#
-  #--/PHP7--#
-  #--PHP8--#
-  php8:
+  #--/PHP74--#
+  #--PHP80--#
+  php80:
     build:
-      context: ${DEMET_PATH}/docker/php8
+      context: ${DEMET_PATH}/docker/php80
     image: demet-php
     container_name: demet-php
     networks:
@@ -66,10 +69,35 @@ services:
       #--PGSQL--#
       - pgsql
       #--/PGSQL--#
-  #--/PHP8--# 
+  #--/PHP80--#
+  #--PHP81--#
+  php81:
+    build:
+      context: ${DEMET_PATH}/docker/php81
+    image: demet-php
+    container_name: demet-php
+    networks:
+      - demet
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ${DEMET_PATH}/public:/var/www/html
+    depends_on:
+      #--MYSQL--#
+      - mysql
+      #--/MYSQL--#
+      #--PGSQL--#
+      - pgsql
+      #--/PGSQL--#
+  #--/PHP81--# 
   #--MYSQL--#
   mysql:
+    #--MYSQL-IMAGE--#
     image: mysql:${MYSQL_VERSION}
+    #--/MYSQL-IMAGE--#
+    #--MARIADB-IMAGE--#
+    image: mariadb:${MARIADB_VERSION}
+    #--/MARIADB-IMAGE--#
     container_name: demet-mysql
     networks:
       - demet
@@ -87,17 +115,20 @@ services:
   #--/MYSQL--#
   #--PHPMYADMIN--#
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
+    image: phpmyadmin:${PHPMYADMIN_VERSION}
     container_name: demet-phpmyadmin
     networks:
       - demet
     depends_on:
-      #--PHP7--#
-      - php7
-      #--/PHP7--#
-      #--PHP8--#
-      - php8
-      #--/PHP8--#
+      #--PHP74--#
+      - php74
+      #--/PHP74--#
+      #--PHP80--#
+      - php80
+      #--/PHP80--#
+      #--PHP81--#
+      - php81
+      #--/PHP81--#
       - mysql
     ports:
         - ${HOST_PORT_PHPMYADMIN}:${HOST_PORT_WEBSERVER}
@@ -126,23 +157,26 @@ services:
   #--/PGSQL--#
   #--PGADMIN--#
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:${PGADMIN_VERSION}
     container_name: demet-pgadmin
     networks:
       - demet
     depends_on:
-      #--PHP7--#
-      - php7
-      #--/PHP7--#
-      #--PHP8--#
-      - php8
-      #--/PHP8--#
+      #--PHP74--#
+      - php74
+      #--/PHP74--#
+      #--PHP80--#
+      - php80
+      #--/PHP80--#
+      #--PHP81--#
+      - php81
+      #--/PHP81--#
       - pgsql
     ports:
       - ${HOST_PORT_PGADMIN}:${HOST_PORT_WEBSERVER}
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
   #--/PGADMIN--#
   #--MONGODB--#
   mongodb:
@@ -163,19 +197,19 @@ services:
       - mongodb-data:/data/db
   #--/MONGODB--#
   #--MONGOEXPRESS--#
-  mongoadmin:
-    image: mongo-express:latest
-    container_name: demet-mongoadmin
+  mongoexpress:
+    image: mongo-express:${MONGOEXPRESS_VERSION}
+    container_name: demet-mongoexpress
     networks:
       - demet
     depends_on:
       - mongodb
     ports:
-      - ${HOST_PORT_MONGOADMIN}:8081
+      - ${HOST_PORT_MONGOEXPRESS}:8081
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
-      ME_CONFIG_BASICAUTH_USERNAME: ${MONGOADMIN_BASIC_USER}
-      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGOADMIN_BASIC_PASSWORD}
+      ME_CONFIG_BASICAUTH_USERNAME: ${MONGOEXPRESS_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${MONGOEXPRESS_PASSWORD}
       ME_CONFIG_MONGODB_PORT: ${HOST_PORT_MONGODB}
       ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_ADMIN_USER}
       ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_ADMIN_PASSWORD}

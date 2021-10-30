@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM nginx:stable-alpine
 LABEL maintainer="İzni Burak Demirtaş <izniburak@gmail.com>"
 
 ADD nginx.conf /etc/nginx/
