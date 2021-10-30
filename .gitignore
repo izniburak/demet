@@ -9,3 +9,4 @@
 !/public/index.php
 /logs/**/*.log
 .env
+docker-compose.yml

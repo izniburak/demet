@@ -186,7 +186,7 @@ services:
       - demet
     ports:
         - ${HOST_PORT_MONGODB}:27017
-    command: mongod --smallfiles --logpath=/dev/null
+    command: mongod --logpath=/dev/null
     restart: on-failure
     environment:
       MONGO_DATA_DIR: /data/db

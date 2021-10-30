@@ -63,7 +63,7 @@ services:
   #--/MYSQL--#
   #--PHPMYADMIN--#
   phpmyadmin:
-    image: phpmyadmin:${PHPMYADMIN_VERSION}
+    image: phpmyadmin/phpmyadmin:${PHPMYADMIN_VERSION}
     container_name: demet-phpmyadmin
     networks:
       - demet

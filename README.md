@@ -19,7 +19,7 @@ Simple, lightweight and useful **LAMP & LEMP** stacks to use on Docker via Docke
 | PHP           | demet-php        | 9000          | 7.4 - 8.0 - 8.1RC | PHP-FPM Versions       |
 | MySQL         | demet-mysql      | 3306          | 8.0           | MySQL 8.0       |
 | MariaDb         | demet-mysql      | 3306          | 10.6           | MariaDb 10.6       |
-| PhpMyAdmin    | demet-phpmyadmin | 8080          | fpm-alphine        | MySQL Web UI                     |
+| PhpMyAdmin    | demet-phpmyadmin | 8080          | latest        | MySQL Web UI                     |
 | PostgreSQL    | demet-pgsql      | 5432          | 12.0          | PostgreSQL 12.0. |
 | PGAdmin       | demet-pgadmin    | 8081          | 6        | PostgreSQL Web UI (dpage/pgadmin4)               |
 | MongoDB       | demet-mongodb    | 27017         | 5        | NoSQL database                   |
@@ -40,15 +40,15 @@ $ git clone https://github.com/izniburak/demet.git && cd demet
 ```
 Now, you must create **.env file** to specify port configuration for the containers you selected. In order to generate **.env file**, you can run following command simply:
 ```
-$ make env
+$ make init
 ```
-Great! **.env** file has been generated.
+Great! **.env** and **docker-compose.yml** files have been generated.
 If you want to change default ports or configuration,
 you can edit **.env** file.
 
 Then, configure and generate your docker-compose.yml file as you want.
 
-**NOTE:** If you want to use default stack (PHP & Apache & MySQL) skip this step.
+**NOTE:** If you want to use default stack (PHP & Apache & MySQL) skip the following step.
 ```
 $ make generate
 ```
@@ -65,18 +65,30 @@ If you want to enter to PHP container, you can use this command simply instead o
 ```
 $ make webserver
 ```
+
 That's all! Happy coding!
 
 ## Notes
 - Your project files must be in `./public/` directory.
+
 - You can change `php.ini` settings by editting files in `./docker/php<VERSION>/conf/` directory.
+
 - You can find configuration files of Webserver which you used in `./docker/apache/` or `./docker/nginx/` directory.
+
 - You can find configuration files of other containers in `./docker/` directory as well.
+
 - **Composer, XDebug and OPCache** are included for PHP. You can use these directly.
-- If you want to enter to spesific container, you can use this command: 
+
+- If you want to enter to spesific container, you can use this command:
 ```
-$ docker exec -it "container-name" /bin/bash
+$ make run c=<container-name>
 ```
+
+- You can check the List of the containers for your setup:
+```
+$ make ps
+```
+
 - You can use following commands simply in order to `up` or `down` docker-compose instead of `docker-compose up|down`:
 ```
 # for UP your containers
@@ -85,7 +97,14 @@ $ make up
 # for DOWN your containers
 $ make down
 ```
+
+- If you need to restart all container, you can use this command:
+```
+$ make restart
+```
+
 - You can access to container logs from `./logs/` directory.
+
 - You can use following command to clean & delete your **docker-compose** and **.env** files
 ```
 $ make clean
