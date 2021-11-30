@@ -16,7 +16,7 @@ Simple, lightweight and useful **LAMP & LEMP** stacks to use on Docker via Docke
 |---------------|------------------|---------------|---------------|----------------------------------|
 | Apache Server | demet-apache     | 80 / 443      | 2.4:alpine    | Apache Web Server                |
 | Nginx Server  | demet-nginx      | 80 / 443      | stable:alpine | Nginx Web Server                 |
-| PHP           | demet-php        | 9000          | 7.4 - 8.0 - 8.1RC | PHP-FPM Versions       |
+| PHP           | demet-php        | 9000          | 7.4 - 8.0 - 8.1 | PHP-FPM Versions (Default: 8.1)       |
 | MySQL         | demet-mysql      | 3306          | 8.0           | MySQL 8.0       |
 | MariaDb         | demet-mysql      | 3306          | 10.6           | MariaDb 10.6       |
 | PhpMyAdmin    | demet-phpmyadmin | 8080          | latest        | MySQL Web UI                     |

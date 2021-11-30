@@ -20,14 +20,14 @@ services:
       - ${DEMET_PATH}/public:/var/www/html
       - ${DEMET_PATH}/logs/webserver:/var/log/apache:rw${MOUNT_OPTIONS}
     depends_on:
-      #--PHP80--#
-      - php80
-      #--/PHP80--#
+      #--PHP81--#
+      - php81
+      #--/PHP81--#
   #--/WEBSERVER--#
-  #--PHP80--#
-  php80:
+  #--PHP81--#
+  php81:
     build:
-      context: ${DEMET_PATH}/docker/php80
+      context: ${DEMET_PATH}/docker/php81
     image: demet-php
     container_name: demet-php
     networks:
@@ -40,7 +40,7 @@ services:
       #--MYSQL--#
       - mysql
       #--/MYSQL--#
-  #--/PHP80--#
+  #--/PHP81--#
   #--MYSQL--#
   mysql:
     #--MYSQL-IMAGE--#
@@ -68,9 +68,9 @@ services:
     networks:
       - demet
     depends_on:
-      #--PHP80--#
-      - php80
-      #--/PHP80--#
+      #--PHP81--#
+      - php81
+      #--/PHP81--#
       - mysql
     ports:
         - ${HOST_PORT_PHPMYADMIN}:80
