@@ -131,7 +131,7 @@ services:
       #--/PHP81--#
       - mysql
     ports:
-        - ${HOST_PORT_PHPMYADMIN}:${HOST_PORT_WEBSERVER}
+        - ${HOST_PORT_PHPMYADMIN}:80
     environment:
       MYSQL_USERNAME: ${MYSQL_DEFAULT_USER}
       MYSQL_ROOT_PASSWORD: ${MYSQL_DEFAULT_PASSWORD}
