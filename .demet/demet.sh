@@ -16,7 +16,7 @@ if [ -f "$compose" ]; then
 fi
 
 read -p "Which webserver do you want to use? [apache|nginx] (Default: apache) : " answer
-if [ "$answer" == 'nginx' ]; then
+if [ "$answer" = 'nginx' ]; then
   echo "Okay, Nginx will be used.\n"
   patterns="s/\${WEBSERVER}/nginx/g;"
 else
@@ -25,11 +25,11 @@ else
 fi
 
 read -p "Which version of PHP do you want to use? (Default: 8.1) [7.4|8.0|8.1] : " answer
-if [ "$answer" == '7.4' ]; then
+if [ "$answer" = '7.4' ]; then
   echo "Okay, PHP 7.4 will be used.\n"
   patterns="$patterns/#--PHP80--#/,/#--\/PHP80--#/d;"
   patterns="$patterns/#--PHP81--#/,/#--\/PHP81--#/d;"
-elif [ "$answer" == '8.0' ]; then
+elif [ "$answer" = '8.0' ]; then
   echo "Okay, PHP 8.0 will be used.\n"
   patterns="$patterns/#--PHP74--#/,/#--\/PHP74--#/d;"
   patterns="$patterns/#--PHP81--#/,/#--\/PHP81--#/d;"
@@ -40,9 +40,9 @@ else
 fi
 
 read -p "Do you want to use MySQL/MariaDb? [y|n] (Default: n) : " answer
-if [ "$answer" == 'y' ]; then
+if [ "$answer" = 'y' ]; then
   read -p "Which image do you want to use? [mysql|mariadb] (Default: mysql) : " answer
-  if [ "$answer" == 'mariadb' ]; then
+  if [ "$answer" = 'mariadb' ]; then
     echo "Okay, MariaDb will be used.\n"
     patterns="$patterns/#--MYSQL-IMAGE--#/,/#--\/MYSQL-IMAGE--#/d;"
   else
@@ -50,7 +50,7 @@ if [ "$answer" == 'y' ]; then
     patterns="$patterns/#--MARIADB-IMAGE--#/,/#--\/MARIADB-IMAGE--#/d;"
   fi
   read -p "Do you want to use PhpMyAdmin? [y|n] (Default: n) : " answer
-  if [ "$answer" == 'y' ]; then
+  if [ "$answer" = 'y' ]; then
     echo "Okay, PhpMyAdmin will be added.\n"
   else
     echo "Okay, PhpMyAdmin won't be added.\n"
@@ -63,10 +63,10 @@ else
 fi
 
 read -p "Do you want to use PostgreSQL? [y|n] (Default: n) : " answer
-if [ "$answer" == 'y' ]; then
+if [ "$answer" = 'y' ]; then
   echo "Okay, PostgreSQL will be added.\n"
   read -p "Do you want to use PGAdmin for PostgreSQL? [y|n] (Default: n) : " answer
-  if [ "$answer" == 'y' ]; then
+  if [ "$answer" = 'y' ]; then
     echo "Okay, PGAdmin will be added.\n"
   else 
     echo "Okay, PGAdmin won't be added.\n"
@@ -79,10 +79,10 @@ else
 fi
 
 read -p "Do you want to use MongoDB? [y|n] (Default: n) : " answer
-if [ "$answer" == 'y' ]; then
+if [ "$answer" = 'y' ]; then
   echo "Okay, MongoDB will be added.\n"
   read -p "Do you want to use Mongo-Express for MongoDB? [y|n] (Default: n) : " answer
-  if [ "$answer" == 'y' ]; then
+  if [ "$answer" = 'y' ]; then
     echo "Okay, Mongo-Express will be added.\n"
   else 
     echo "Okay, Mongo-Express won't be added.\n"
@@ -95,7 +95,7 @@ else
 fi
 
 read -p "Do you want to use Redis? [y|n] (Default: n) : " answer
-if [ "$answer" == 'y' ]; then
+if [ "$answer" = 'y' ]; then
   echo "Okay, Redis will be added.\n"
 else 
   echo "Okay, Redis won't be added.\n"
@@ -103,7 +103,7 @@ else
 fi
 
 read -p "Do you want to use RabbitMQ? [y|n] (Default: n) : " answer
-if [ "$answer" == 'y' ]; then
+if [ "$answer" = 'y' ]; then
   echo "Okay, RabbitMQ will be added.\n"
 else 
   echo "Okay, RabbitMQ won't be added.\n"
