@@ -23,12 +23,12 @@ services:
       #--PHP74--#
       - php74
       #--/PHP74--#
-      #--PHP80--#
-      - php80
-      #--/PHP80--#
       #--PHP81--#
       - php81
       #--/PHP81--#
+      #--PHP82--#
+      - php82
+      #--/PHP82--#
   #--/WEBSERVER--#
   #--PHP74--#
   php74:
@@ -50,26 +50,6 @@ services:
       - pgsql
       #--/PGSQL--#
   #--/PHP74--#
-  #--PHP80--#
-  php80:
-    build:
-      context: ${DEMET_PATH}/docker/php80
-    image: demet-php
-    container_name: demet-php
-    networks:
-      - demet
-    environment:
-      TZ: ${TIMEZONE}
-    volumes:
-      - ${DEMET_PATH}/public:/var/www/html
-    depends_on:
-      #--MYSQL--#
-      - mysql
-      #--/MYSQL--#
-      #--PGSQL--#
-      - pgsql
-      #--/PGSQL--#
-  #--/PHP80--#
   #--PHP81--#
   php81:
     build:
@@ -89,7 +69,27 @@ services:
       #--PGSQL--#
       - pgsql
       #--/PGSQL--#
-  #--/PHP81--# 
+  #--/PHP81--#
+  #--PHP82--#
+  php82:
+    build:
+      context: ${DEMET_PATH}/docker/php82
+    image: demet-php
+    container_name: demet-php
+    networks:
+      - demet
+    environment:
+      TZ: ${TIMEZONE}
+    volumes:
+      - ${DEMET_PATH}/public:/var/www/html
+    depends_on:
+      #--MYSQL--#
+      - mysql
+      #--/MYSQL--#
+      #--PGSQL--#
+      - pgsql
+      #--/PGSQL--#
+  #--/PHP82--#
   #--MYSQL--#
   mysql:
     #--MYSQL-IMAGE--#
@@ -123,12 +123,12 @@ services:
       #--PHP74--#
       - php74
       #--/PHP74--#
-      #--PHP80--#
-      - php80
-      #--/PHP80--#
       #--PHP81--#
       - php81
       #--/PHP81--#
+      #--PHP82--#
+      - php82
+      #--/PHP82--#
       - mysql
     ports:
         - ${HOST_PORT_PHPMYADMIN}:80
@@ -165,12 +165,12 @@ services:
       #--PHP74--#
       - php74
       #--/PHP74--#
-      #--PHP80--#
-      - php80
-      #--/PHP80--#
       #--PHP81--#
       - php81
       #--/PHP81--#
+      #--PHP82--#
+      - php82
+      #--/PHP82--#
       - pgsql
     ports:
       - ${HOST_PORT_PGADMIN}:${HOST_PORT_WEBSERVER}

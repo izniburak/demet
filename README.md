@@ -16,7 +16,7 @@ Simple, lightweight and useful **LAMP & LEMP** stacks to use on Docker via Docke
 |---------------|------------------|---------------|---------------|----------------------------------|
 | Apache Server | demet-apache     | 80 / 443      | 2.4:alpine    | Apache Web Server                |
 | Nginx Server  | demet-nginx      | 80 / 443      | stable:alpine | Nginx Web Server                 |
-| PHP           | demet-php        | 9000          | 7.4 - 8.0 - 8.1 | PHP-FPM Versions (Default: 8.1)       |
+| PHP           | demet-php        | 9000          | 7.4 - 8.1 - 8.2 | PHP-FPM Versions (Default: 8.2)       |
 | MySQL         | demet-mysql      | 3306          | 8.0           | MySQL 8.0       |
 | MariaDb         | demet-mysql      | 3306          | 10.6           | MariaDb 10.6       |
 | PhpMyAdmin    | demet-phpmyadmin | 8080          | latest        | MySQL Web UI                     |
@@ -72,6 +72,8 @@ That's all! Happy coding!
 - Your project files must be in `./public/` directory.
 
 - You can change `php.ini` settings by editting files in `./docker/php<VERSION>/conf/` directory.
+
+- If you need new extension for PHP, you can update `./docker/php<VERSION>/Dockerfile` file and add a new extension you want.
 
 - You can find configuration files of Webserver which you used in `./docker/apache/` or `./docker/nginx/` directory.
 

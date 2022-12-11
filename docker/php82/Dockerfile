@@ -1,4 +1,4 @@
-FROM php:8.0-fpm
+FROM php:8.2-fpm
 LABEL maintainer="İzni Burak Demirtaş <izniburak@gmail.com>"
 
 ENV PATH="./vendor/bin:${PATH}"
