@@ -16,7 +16,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
         libgmp-dev libmhash-dev libpng-dev libxml2-dev libssl-dev libzip-dev libpq-dev \
         re2c apache2-utils openssl autoconf pkg-config \
     && docker-php-ext-install pdo_mysql opcache zip \
-    && docker-php-ext-configure gd \
+    && docker-php-ext-configure gd --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install soap mysqli intl bcmath pcntl \
     && docker-php-ext-configure gmp \
