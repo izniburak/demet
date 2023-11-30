@@ -1,9 +1,9 @@
-FROM php:7.4-zts-alpine
+FROM php:8.3-fpm
 LABEL maintainer="İzni Burak Demirtaş <izniburak@gmail.com>"
 
 ENV PATH="./vendor/bin:${PATH}"
 
-COPY php-zts.ini /usr/local/etc/php/conf.d/
+COPY conf/ /usr/local/etc/php/conf.d/
 
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/local/include/ \
@@ -16,7 +16,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
         libgmp-dev libmhash-dev libpng-dev libxml2-dev libssl-dev libzip-dev libpq-dev \
         re2c apache2-utils openssl autoconf pkg-config \
     && docker-php-ext-install pdo_mysql opcache zip \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install soap mysqli intl bcmath pcntl \
     && docker-php-ext-configure gmp \
@@ -32,19 +32,6 @@ RUN pecl install mongodb redis xdebug \
 
 RUN echo "### Installing MongoDB, Redis and XDebug Extensions are completed. ###"
 
-# Add PHP Pthreads module
-RUN git clone https://github.com/krakjoe/pthreads.git \
-        && ( \
-            cd pthreads \
-            && phpize \
-            && ./configure --enable-pthreads \
-            && make -j$(nproc) \
-            && make install \
-        ) \
-        && rm -r pthreads \
-        && docker-php-ext-enable pthreads
-RUN echo "### Installing pThread Extension is completed. ###" 
-
 # Add Composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/bin --filename=composer && chmod +x /usr/bin/composer 
@@ -54,8 +41,8 @@ USER root
 
 RUN usermod -u 1000 www-data
 
-WORKDIR /var/www/scripts
+EXPOSE 9000
 
-EXPOSE 9001
+WORKDIR /var/www/html
 
-ENTRYPOINT ["/bin/sh"]
+CMD ["php-fpm"]

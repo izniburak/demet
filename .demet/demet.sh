@@ -24,19 +24,19 @@ else
   patterns="s/\${WEBSERVER}/apache/g;"
 fi
 
-read -p "Which version of PHP do you want to use? (Default: 8.2) [7.4|8.1|8.2] : " answer
-if [ "$answer" = '7.4' ]; then
-  echo "Okay, PHP 7.4 will be used.\n"
-  patterns="$patterns/#--PHP82--#/,/#--\/PHP82--#/d;"
-  patterns="$patterns/#--PHP81--#/,/#--\/PHP81--#/d;"
-elif [ "$answer" = '8.1' ]; then
+read -p "Which version of PHP do you want to use? (Default: 8.3) [8.1|8.2|8.3] : " answer
+if [ "$answer" = '8.1' ]; then
   echo "Okay, PHP 8.1 will be used.\n"
-  patterns="$patterns/#--PHP74--#/,/#--\/PHP74--#/d;"
+  patterns="$patterns/#--PHP83--#/,/#--\/PHP83--#/d;"
   patterns="$patterns/#--PHP82--#/,/#--\/PHP82--#/d;"
-else
+elif [ "$answer" = '8.2' ]; then
   echo "Okay, PHP 8.2 will be used.\n"
   patterns="$patterns/#--PHP81--#/,/#--\/PHP81--#/d;"
-  patterns="$patterns/#--PHP74--#/,/#--\/PHP74--#/d;"
+  patterns="$patterns/#--PHP83--#/,/#--\/PHP83--#/d;"
+else
+  echo "Okay, PHP 8.3 will be used.\n"
+  patterns="$patterns/#--PHP81--#/,/#--\/PHP81--#/d;"
+  patterns="$patterns/#--PHP72--#/,/#--\/PHP72--#/d;"
 fi
 
 read -p "Do you want to use MySQL/MariaDb? [y|n] (Default: n) : " answer
