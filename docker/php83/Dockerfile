@@ -26,11 +26,11 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime \
 
 RUN echo "### Installing PHP and its Extensions are completed. ###"
 
-# Add Mongodb, Redis, XDebug
-RUN pecl install mongodb redis xdebug \ 
-    && docker-php-ext-enable xdebug redis mongodb opcache 
+# Add Mongodb, Redis
+RUN pecl install mongodb redis \ 
+    && docker-php-ext-enable redis mongodb opcache 
 
-RUN echo "### Installing MongoDB, Redis and XDebug Extensions are completed. ###"
+RUN echo "### Installing MongoDB and Redis Extensions are completed. ###"
 
 # Add Composer
 RUN curl -sS https://getcomposer.org/installer | php -- \
