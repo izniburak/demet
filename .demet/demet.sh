@@ -36,7 +36,7 @@ elif [ "$answer" = '8.2' ]; then
 else
   echo "Okay, PHP 8.3 will be used.\n"
   patterns="$patterns/#--PHP81--#/,/#--\/PHP81--#/d;"
-  patterns="$patterns/#--PHP72--#/,/#--\/PHP72--#/d;"
+  patterns="$patterns/#--PHP82--#/,/#--\/PHP82--#/d;"
 fi
 
 read -p "Do you want to use MySQL/MariaDb? [y|n] (Default: n) : " answer
