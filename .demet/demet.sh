@@ -41,13 +41,13 @@ fi
 
 read -p "Do you want to use MySQL/MariaDb? [y|n] (Default: n) : " answer
 if [ "$answer" = 'y' ]; then
-  read -p "Which image do you want to use? [mysql|mariadb] (Default: mysql) : " answer
-  if [ "$answer" = 'mariadb' ]; then
-    echo "Okay, MariaDb will be used.\n"
-    patterns="$patterns/#--MYSQL-IMAGE--#/,/#--\/MYSQL-IMAGE--#/d;"
-  else
+  read -p "Which image do you want to use? [mysql|mariadb] (Default: mariadb) : " answer
+  if [ "$answer" = 'mysql' ]; then
     echo "Okay, MySQL will be used.\n"
     patterns="$patterns/#--MARIADB-IMAGE--#/,/#--\/MARIADB-IMAGE--#/d;"
+  else
+    echo "Okay, MariaDb will be used.\n"
+    patterns="$patterns/#--MYSQL-IMAGE--#/,/#--\/MYSQL-IMAGE--#/d;"
   fi
   read -p "Do you want to use PhpMyAdmin? [y|n] (Default: n) : " answer
   if [ "$answer" = 'y' ]; then

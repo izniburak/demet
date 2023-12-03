@@ -6,14 +6,13 @@ COPY sites/ /etc/nginx/sites-available/
 
 RUN apk update \
     && apk upgrade \
-    && apk add --no-cache bash \
-    && adduser -D -H -u 1000 -s /bin/bash www-data
+    && apk add --no-cache bash
 
-ARG PHP_UPSTREAM_CONTAINER=demet-php
-ARG PHP_UPSTREAM_PORT=9000
+ARG PHP_CONTAINER
+ENV CONTAINER_PHP=${PHP_CONTAINER}
 
 # Set upstream conf and remove the default conf
-RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREAM_PORT}; }" > /etc/nginx/conf.d/upstream.conf \
+RUN echo "upstream php-upstream { server ${CONTAINER_PHP}:9000; }" > /etc/nginx/conf.d/upstream.conf \
     && rm /etc/nginx/conf.d/default.conf
 
 EXPOSE 80 443

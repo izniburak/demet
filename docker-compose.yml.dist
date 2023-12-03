@@ -9,8 +9,12 @@ services:
   webserver:
     build:
       context: ${DEMET_PATH}/docker/apache
-    image: demet-webserver
-    container_name: demet-webserver
+      args:
+        - PHP_CONTAINER=${DEMET_PREFIX}-php
+    image: ${DEMET_PREFIX}-webserver
+    container_name: ${DEMET_PREFIX}-webserver
+    environment:
+      - PHP_CONTAINER=${DEMET_PREFIX}-php
     networks:
       - demet
     ports:
@@ -28,25 +32,25 @@ services:
   php83:
     build:
       context: ${DEMET_PATH}/docker/php83
-    image: demet-php
-    container_name: demet-php
+    image: ${DEMET_PREFIX}-php
+    container_name: ${DEMET_PREFIX}-php
     networks:
       - demet
     environment:
       TZ: ${TIMEZONE}
     volumes:
       - ${DEMET_PATH}/public:/var/www/html
-    depends_on:
       #--MYSQL--#
+    depends_on:
       - mysql
       #--/MYSQL--#
   #--/PHP83--#
   #--MYSQL--#
   mysql:
-    #--MYSQL-IMAGE--#
-    image: mysql:${MYSQL_VERSION}
-    #--/MYSQL-IMAGE--#
-    container_name: demet-mysql
+    #--MARIADB-IMAGE--#
+    image: mariadb:${MARIADB_VERSION}
+    #--/MARIADB-IMAGE--#
+    container_name: ${DEMET_PREFIX}-mysql
     networks:
       - demet
     environment:
@@ -64,7 +68,7 @@ services:
   #--PHPMYADMIN--#
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:${PHPMYADMIN_VERSION}
-    container_name: demet-phpmyadmin
+    container_name: ${DEMET_PREFIX}-phpmyadmin
     networks:
       - demet
     depends_on:
@@ -81,6 +85,8 @@ services:
       PMA_PORT: ${HOST_PORT_MYSQL}
   #--/PHPMYADMIN--#
 volumes:
+  demet-data:
+    driver: "local"
   #--MYSQL--#
   mysql-data:
     driver: "local"
